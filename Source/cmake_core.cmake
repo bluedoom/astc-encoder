@@ -26,6 +26,19 @@ project(${ASTC_TARGET})
 set(GNU_LIKE "GNU,Clang,AppleClang")
 set(CLANG_LIKE "Clang,AppleClang")
 
+add_library(${ASTC_TARGET}-dyn
+    SHARED
+    dynamic.cpp
+    )
+
+target_include_directories(${ASTC_TARGET}-dyn
+    PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:.>)
+target_link_libraries(${ASTC_TARGET}-dyn
+        PRIVATE
+            ${ASTC_TARGET}-static)
+
 add_library(${ASTC_TARGET}-static
     STATIC
         astcenc_averages_and_directions.cpp
