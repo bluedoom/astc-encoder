@@ -20,6 +20,7 @@ if(${UNIVERSAL_BUILD})
 else()
     set(ASTC_TARGET astc${CODEC}-${ISA_SIMD})
 endif()
+set(CMAKE_MSVC_RUNTIME_LIBRARY MultiThreaded)
 
 project(${ASTC_TARGET})
 
@@ -29,12 +30,14 @@ set(CLANG_LIKE "Clang,AppleClang")
 add_library(${ASTC_TARGET}-dyn
     SHARED
     dynamic.cpp
+    astcenccli_platform_dependents.cpp
     )
 
 target_include_directories(${ASTC_TARGET}-dyn
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
         $<INSTALL_INTERFACE:.>)
+
 target_link_libraries(${ASTC_TARGET}-dyn
         PRIVATE
             ${ASTC_TARGET}-static)
