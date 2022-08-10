@@ -60,18 +60,14 @@ PUBLIC_API compress_context_wrap* CreateContext(int block,
     int thread_count)
 {
     astcenc_config config;
-    config.block_x = block;
-    config.block_y = block;
-    config.profile = profile;
+    astcenc_error status;
+    status = astcenc_config_init(profile, block, block, 1, quality, flags, &config);
+
     config.cw_a_weight = w_a;
     config.cw_r_weight = w_r;
     config.cw_g_weight = w_g;
     config.cw_b_weight = w_b;
 
-    config.flags = flags;
-
-    astcenc_error status;
-    status = astcenc_config_init(profile, block, block, 1, quality, 0, &config);
     if (status != ASTCENC_SUCCESS)
     {
         printf("ERROR: Codec config init failed: %s\n", astcenc_get_error_string(status));
